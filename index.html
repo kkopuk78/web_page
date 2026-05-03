@@ -36,9 +36,22 @@
             border-color: #fca5a5;
             color: #b91c1c;
         }
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body class="antialiased">
+
+    <div id="loader" class="loading-overlay">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-700"></div>
+    </div>
 
     <!-- Hero Section -->
     <header class="relative hero-gradient py-8 px-6 text-center border-b border-stone-200">
@@ -167,11 +180,11 @@
                         </div>
                         
                         <div class="pt-4 border-t border-stone-50">
-                            <form onsubmit="event.preventDefault(); addVote('list-1', 'name-1');" class="flex gap-2 mb-3">
+                            <form onsubmit="event.preventDefault(); submitEntry('vote-1', 'name-1');" class="flex gap-2 mb-3">
                                 <input type="text" id="name-1" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500">
                                 <button type="submit" class="bg-emerald-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-emerald-700 transition-colors">투표</button>
                             </form>
-                            <div id="list-1" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
+                            <div id="list-vote-1" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
                         </div>
                     </div>
                 </div>
@@ -191,11 +204,11 @@
                         </div>
 
                         <div class="pt-4 border-t border-stone-50">
-                            <form onsubmit="event.preventDefault(); addVote('list-2', 'name-2');" class="flex gap-2 mb-3">
+                            <form onsubmit="event.preventDefault(); submitEntry('vote-2', 'name-2');" class="flex gap-2 mb-3">
                                 <input type="text" id="name-2" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500">
                                 <button type="submit" class="bg-blue-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-blue-700 transition-colors">투표</button>
                             </form>
-                            <div id="list-2" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
+                            <div id="list-vote-2" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
                         </div>
                     </div>
                 </div>
@@ -215,11 +228,11 @@
                         </div>
 
                         <div class="pt-4 border-t border-stone-50">
-                            <form onsubmit="event.preventDefault(); addVote('list-3', 'name-3');" class="flex gap-2 mb-3">
+                            <form onsubmit="event.preventDefault(); submitEntry('vote-3', 'name-3');" class="flex gap-2 mb-3">
                                 <input type="text" id="name-3" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500">
                                 <button type="submit" class="bg-amber-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-amber-700 transition-colors">투표</button>
                             </form>
-                            <div id="list-3" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
+                            <div id="list-vote-3" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
                         </div>
                     </div>
                 </div>
@@ -244,12 +257,12 @@
                             <span class="text-lg">🚐</span>
                             <h3 class="font-bold text-emerald-900">교회 차량 (스타리아)</h3>
                         </div>
-                        <form onsubmit="event.preventDefault(); addVote('list-van', 'name-van');" class="flex gap-2 mb-4">
+                        <form onsubmit="event.preventDefault(); submitEntry('trans-van', 'name-van');" class="flex gap-2 mb-4">
                             <input type="text" id="name-van" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
                             <button type="submit" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all">신청</button>
                         </form>
-                        <div id="list-van" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
-                        <p id="count-van" class="text-[10px] font-bold text-emerald-700">신청: 0명</p>
+                        <div id="list-trans-van" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
+                        <p id="count-trans-van" class="text-[10px] font-bold text-emerald-700">신청: 0명</p>
                     </div>
 
                     <!-- Personal Car -->
@@ -258,12 +271,12 @@
                             <span class="text-lg">🚘</span>
                             <h3 class="font-bold text-blue-900">개인 차량 (자차)</h3>
                         </div>
-                        <form onsubmit="event.preventDefault(); addVote('list-car', 'name-car');" class="flex gap-2 mb-4">
+                        <form onsubmit="event.preventDefault(); submitEntry('trans-car', 'name-car');" class="flex gap-2 mb-4">
                             <input type="text" id="name-car" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
                             <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-800 transition-all">신청</button>
                         </form>
-                        <div id="list-car" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
-                        <p id="count-car" class="text-[10px] font-bold text-blue-700">신청: 0명</p>
+                        <div id="list-trans-car" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
+                        <p id="count-trans-car" class="text-[10px] font-bold text-blue-700">신청: 0명</p>
                     </div>
                 </div>
                 
@@ -298,53 +311,141 @@
         <p class="text-[8px] uppercase tracking-[0.2em] font-light">2026 Infant Division Teachers Retreat</p>
     </footer>
 
-    <script>
-        function addVote(listId, inputId) {
-            const input = document.getElementById(inputId);
-            const list = document.getElementById(listId);
-            const name = input.value.trim();
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-            if (name === "") return;
+        // Firebase Configuration
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : '2026-teachers-picnic';
 
-            const tag = document.createElement("button");
-            const isTransport = listId.startsWith('list-');
-            
-            // Style based on list type
-            if (listId === 'list-van') {
-                tag.className = "vote-list-item group flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded-lg border border-emerald-200 font-bold shadow-sm cursor-pointer hover:bg-red-50";
-            } else if (listId === 'list-car') {
-                tag.className = "vote-list-item group flex items-center gap-1.5 bg-blue-100 text-blue-800 text-[10px] px-2.5 py-1 rounded-lg border border-blue-200 font-bold shadow-sm cursor-pointer hover:bg-red-50";
-            } else {
-                tag.className = "vote-list-item group flex items-center gap-1.5 bg-white text-stone-700 text-[10px] px-2.5 py-1 rounded-full border border-stone-200 font-medium shadow-sm cursor-pointer hover:bg-red-50";
+        let currentUser = null;
+
+        // Auth initialization
+        async function initAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth error:", error);
             }
-            
-            tag.title = "클릭하여 삭제";
-            
-            tag.onclick = function() {
-                this.style.opacity = '0';
-                this.style.transform = 'scale(0.8)';
-                setTimeout(() => { 
-                    this.remove(); 
-                    if (listId === 'list-van') updateCount('list-van', 'count-van');
-                    if (listId === 'list-car') updateCount('list-car', 'count-car');
-                }, 200);
-            };
-
-            tag.innerHTML = `
-                <span>${name}</span>
-                <span class="text-stone-400 group-hover:text-red-500 text-[8px] transition-colors">✕</span>
-            `;
-
-            list.appendChild(tag);
-            input.value = "";
-            
-            if (listId === 'list-van') updateCount('list-van', 'count-van');
-            if (listId === 'list-car') updateCount('list-car', 'count-car');
         }
 
-        function updateCount(listId, countId) {
-            const count = document.getElementById(listId).children.length;
-            document.getElementById(countId).innerText = `신청: ${count}명`;
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                startListening();
+                document.getElementById('loader').style.display = 'none';
+            }
+        });
+
+        initAuth();
+
+        // Database logic
+        const collections = {
+            'vote-1': 'lunch_votes_1',
+            'vote-2': 'lunch_votes_2',
+            'vote-3': 'lunch_votes_3',
+            'trans-van': 'transport_van',
+            'trans-car': 'transport_car'
+        };
+
+        function startListening() {
+            Object.keys(collections).forEach(key => {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', collections[key]);
+                onSnapshot(colRef, (snapshot) => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderList(key, data);
+                }, (error) => console.error(`Listener error for ${key}:`, error));
+            });
+        }
+
+        window.submitEntry = async (category, inputId) => {
+            if (!currentUser) return;
+            const input = document.getElementById(inputId);
+            const name = input.value.trim();
+            if (!name) return;
+
+            const docId = `${currentUser.uid}_${Date.now()}`;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', collections[category], docId);
+            
+            try {
+                await setDoc(docRef, {
+                    name: name,
+                    uid: currentUser.uid,
+                    timestamp: Date.now()
+                });
+                input.value = "";
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        };
+
+        window.removeEntry = async (category, docId, ownerUid) => {
+            if (!currentUser || currentUser.uid !== ownerUid) {
+                // 본인 것만 삭제 가능하도록 하거나, 필요시 알림
+                return;
+            }
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', collections[category], docId);
+            try {
+                await deleteDoc(docRef);
+            } catch (e) {
+                console.error("Error removing document: ", e);
+            }
+        };
+
+        function renderList(key, items) {
+            const listElement = document.getElementById(`list-${key}`);
+            if (!listElement) return;
+
+            listElement.innerHTML = '';
+            items.forEach(item => {
+                const tag = document.createElement("button");
+                
+                // Styling based on category
+                let baseStyle = "vote-list-item group flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-lg border font-bold shadow-sm cursor-pointer transition-all ";
+                if (key === 'trans-van') {
+                    baseStyle += "bg-emerald-100 text-emerald-800 border-emerald-200 hover:bg-red-50 hover:border-red-200";
+                } else if (key === 'trans-car') {
+                    baseStyle += "bg-blue-100 text-blue-800 border-blue-200 hover:bg-red-50 hover:border-red-200";
+                } else {
+                    baseStyle += "bg-white text-stone-700 border-stone-200 rounded-full hover:bg-red-50 hover:border-red-200";
+                }
+
+                // 본인 항목인 경우 강조
+                if (item.uid === currentUser?.uid) {
+                    baseStyle += " ring-1 ring-offset-1 ring-stone-400";
+                }
+
+                tag.className = baseStyle;
+                tag.innerHTML = `
+                    <span>${item.name}</span>
+                    <span class="text-stone-400 group-hover:text-red-500 text-[8px] transition-colors">${item.uid === currentUser?.uid ? '✕' : ''}</span>
+                `;
+
+                if (item.uid === currentUser?.uid) {
+                    tag.title = "클릭하여 삭제";
+                    tag.onclick = () => removeEntry(key, item.id, item.uid);
+                } else {
+                    tag.title = "다른 선생님의 입력입니다.";
+                }
+
+                listElement.appendChild(tag);
+            });
+
+            // Update counts for transport
+            if (key.startsWith('trans-')) {
+                const countEl = document.getElementById(`count-${key}`);
+                if (countEl) countEl.innerText = `신청: ${items.length}명`;
+            }
         }
     </script>
 
