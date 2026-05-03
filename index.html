@@ -19,10 +19,6 @@
         .hero-gradient {
             background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
         }
-        @media print {
-            .no-print { display: none; }
-            body { background-color: white; }
-        }
         .vote-list-item {
             animation: fadeIn 0.3s ease-out;
             transition: all 0.2s ease;
@@ -31,26 +27,25 @@
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .vote-list-item:hover {
-            background-color: #fee2e2;
-            border-color: #fca5a5;
-            color: #b91c1c;
-        }
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- 로딩 화면 -->
     <div id="loader" class="loading-overlay">
-        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-700"></div>
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-700 mb-4"></div>
+        <p class="text-stone-600 font-medium">데이터를 불러오는 중입니다...</p>
     </div>
 
     <!-- Hero Section -->
@@ -78,94 +73,15 @@
     </header>
 
     <main class="max-w-5xl mx-auto px-6 py-8 space-y-12">
-
-        <!-- Manifesto -->
-        <section class="max-w-3xl mx-auto">
-            <div class="bg-emerald-900 rounded-[2rem] p-6 md:p-8 shadow-xl text-center">
-                <p class="text-lg md:text-xl text-white font-light leading-snug serif">
-                    "선생님이라는 이름표를 잠시 내려놓고,<br>
-                    오롯이 <span class="text-emerald-300 font-bold">나 자신</span>으로 숨쉬기"
-                </p>
-            </div>
-        </section>
-
-        <!-- Journey Map -->
-        <section>
-            <div class="mb-6 text-center">
-                <h2 class="text-3xl font-bold text-stone-900 mb-1 tracking-tight">Journey Map</h2>
-                <p class="text-stone-500 text-sm">행복을 향한 시간별 상세 루트</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-3xl">🚗</span>
-                        <div>
-                            <p class="text-[10px] font-bold text-emerald-600 tracking-wider">09:00 AM</p>
-                            <h3 class="text-lg font-bold text-stone-800">집결 및 탈출</h3>
-                        </div>
-                    </div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">교회 주차장 집결. 차 안에서는 우리 얘기만 하기.</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-3xl">🌲</span>
-                        <div>
-                            <p class="text-[10px] font-bold text-emerald-600 tracking-wider">10:00 AM</p>
-                            <h3 class="text-lg font-bold text-stone-800">융건릉 산책</h3>
-                        </div>
-                    </div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">피톤치드로 마음 정화. 소나무 숲길 걷기.</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-3xl">🍱</span>
-                        <div>
-                            <p class="text-[10px] font-bold text-emerald-600 tracking-wider">11:30 AM</p>
-                            <h3 class="text-lg font-bold text-stone-800">맛있는 식사</h3>
-                        </div>
-                    </div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">아래 후보 중 선정된 맛집에서 영혼 충전 시간.</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-3xl">🥐</span>
-                        <div>
-                            <p class="text-[10px] font-bold text-emerald-600 tracking-wider">01:30 PM</p>
-                            <h3 class="text-lg font-bold text-stone-800">베이커리 카페</h3>
-                        </div>
-                    </div>
-                    <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">보통리 저수지 인근 카페에서 디저트와 수다 타임.</p>
-                </div>
-
-                <div class="bg-emerald-50 p-5 rounded-[1.5rem] border border-emerald-100 shadow-sm flex flex-col h-full">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="text-3xl">⛪</span>
-                        <div>
-                            <p class="text-[10px] font-bold text-emerald-700 tracking-wider">04:00 PM</p>
-                            <h3 class="text-lg font-bold text-emerald-900">교회 무사 도착</h3>
-                        </div>
-                    </div>
-                    <p class="text-emerald-800 text-sm leading-relaxed mb-4 flex-grow">즐거운 추억을 안고 반석교회로 복귀합니다.</p>
-                    <div class="bg-white/50 p-2 rounded-xl text-[10px] text-emerald-700 font-bold text-center italic">
-                        재충전 완료!
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Hotspots & Voting Section -->
+        <!-- 식사 투표 섹션 -->
         <section id="voting-section">
             <div class="text-center mb-6">
                 <h2 class="text-3xl font-bold text-stone-900 mb-1 tracking-tight">Lunch Voting</h2>
-                <p class="text-stone-500 text-sm mb-4 text-center">선생님들의 원픽 식당에 <strong>투표(이름 입력)</strong>해주세요!</p>
+                <p class="text-stone-500 text-sm mb-4">선생님들의 원픽 식당에 <strong>투표(이름 입력)</strong>해주세요!</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Option 1 -->
+                <!-- 옵션 1 -->
                 <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col">
                     <div class="relative h-[180px] bg-stone-200">
                         <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20260223_28%2F1771808133987eeNEl_JPEG%2F%25B0%25A9%25BF%25C0%25C2%25A1%25BE%25EE_%25BA%25D2%25B0%25ED%25B1%25E2.JPG" alt="조가네갑오징어" class="w-full h-full object-cover">
@@ -174,22 +90,18 @@
                         </div>
                     </div>
                     <div class="p-5 flex-grow space-y-4">
-                        <div>
-                            <p class="text-sm font-bold text-stone-800 italic">갑오징어 불고기 (1.6만)</p>
-                            <a href="https://m.blog.naver.com/arodea/223494619478" target="_blank" class="text-[10px] text-emerald-600 hover:underline font-medium">리뷰 확인 ↗</a>
-                        </div>
-                        
+                        <p class="text-sm font-bold text-stone-800">갑오징어 불고기 (1.6만)</p>
                         <div class="pt-4 border-t border-stone-50">
-                            <form onsubmit="event.preventDefault(); submitEntry('vote-1', 'name-1');" class="flex gap-2 mb-3">
+                            <div class="flex gap-2 mb-3">
                                 <input type="text" id="name-1" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500">
-                                <button type="submit" class="bg-emerald-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-emerald-700 transition-colors">투표</button>
-                            </form>
+                                <button onclick="handleVote('vote-1', 'name-1')" class="bg-emerald-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-emerald-700 transition-colors">투표</button>
+                            </div>
                             <div id="list-vote-1" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Option 2 -->
+                <!-- 옵션 2 -->
                 <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col">
                     <div class="relative h-[180px] bg-stone-200">
                         <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221222_274%2F1671681786616BIlB4_JPEG%2F20%25B3%25E2%25B5%25B5_%25C7%25D1%25BB%25F3%25C2%25F7%25B8%25B2_2.jpg" alt="미꼬담" class="w-full h-full object-cover">
@@ -198,22 +110,18 @@
                         </div>
                     </div>
                     <div class="p-5 flex-grow space-y-4">
-                        <div>
-                            <p class="text-sm font-bold text-stone-800 italic">미역국/꼬막 정찬 (1.5~2.0만)</p>
-                            <a href="https://m.blog.naver.com/soominwish/223048882049" target="_blank" class="text-[10px] text-blue-600 hover:underline font-medium">리뷰 확인 ↗</a>
-                        </div>
-
+                        <p class="text-sm font-bold text-stone-800">미역국/꼬막 정찬 (1.5~2.0만)</p>
                         <div class="pt-4 border-t border-stone-50">
-                            <form onsubmit="event.preventDefault(); submitEntry('vote-2', 'name-2');" class="flex gap-2 mb-3">
+                            <div class="flex gap-2 mb-3">
                                 <input type="text" id="name-2" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500">
-                                <button type="submit" class="bg-blue-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-blue-700 transition-colors">투표</button>
-                            </form>
+                                <button onclick="handleVote('vote-2', 'name-2')" class="bg-blue-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-blue-700 transition-colors">투표</button>
+                            </div>
                             <div id="list-vote-2" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Option 3 -->
+                <!-- 옵션 3 -->
                 <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col">
                     <div class="relative h-[180px] bg-stone-200">
                         <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190307_92%2F1551931299858zrGHB_JPEG%2FSAM_2843.JPG" alt="황도면옥" class="w-full h-full object-cover">
@@ -222,16 +130,12 @@
                         </div>
                     </div>
                     <div class="p-5 flex-grow space-y-4">
-                        <div>
-                            <p class="text-sm font-bold text-stone-800 italic">칼국수/막국수 (1.0~1.3만)</p>
-                            <a href="https://blog.naver.com/yucalip12/223715148846" target="_blank" class="text-[10px] text-amber-600 hover:underline font-medium">리뷰 확인 ↗</a>
-                        </div>
-
+                        <p class="text-sm font-bold text-stone-800">칼국수/막국수 (1.0~1.3만)</p>
                         <div class="pt-4 border-t border-stone-50">
-                            <form onsubmit="event.preventDefault(); submitEntry('vote-3', 'name-3');" class="flex gap-2 mb-3">
+                            <div class="flex gap-2 mb-3">
                                 <input type="text" id="name-3" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500">
-                                <button type="submit" class="bg-amber-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-amber-700 transition-colors">투표</button>
-                            </form>
+                                <button onclick="handleVote('vote-3', 'name-3')" class="bg-amber-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-amber-700 transition-colors">투표</button>
+                            </div>
                             <div id="list-vote-3" class="flex flex-wrap gap-1.5 min-h-[30px]"></div>
                         </div>
                     </div>
@@ -239,7 +143,7 @@
             </div>
         </section>
 
-        <!-- Transport Request Section -->
+        <!-- 차량 신청 섹션 -->
         <section id="transport-section" class="max-w-4xl mx-auto pt-8">
             <div class="bg-white rounded-[2.5rem] p-8 border border-stone-200 shadow-md">
                 <div class="flex items-center gap-4 mb-8">
@@ -251,106 +155,60 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Church Van -->
+                    <!-- 교회 차량 -->
                     <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
                         <div class="flex items-center gap-2 mb-4">
                             <span class="text-lg">🚐</span>
                             <h3 class="font-bold text-emerald-900">교회 차량 (스타리아)</h3>
                         </div>
-                        <form onsubmit="event.preventDefault(); submitEntry('trans-van', 'name-van');" class="flex gap-2 mb-4">
-                            <input type="text" id="name-van" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
-                            <button type="submit" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all">신청</button>
-                        </form>
+                        <div class="flex gap-2 mb-4">
+                            <input type="text" id="name-van" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <button onclick="handleVote('trans-van', 'name-van')" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all">신청</button>
+                        </div>
                         <div id="list-trans-van" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
                         <p id="count-trans-van" class="text-[10px] font-bold text-emerald-700">신청: 0명</p>
                     </div>
 
-                    <!-- Personal Car -->
+                    <!-- 개인 차량 -->
                     <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
                         <div class="flex items-center gap-2 mb-4">
                             <span class="text-lg">🚘</span>
                             <h3 class="font-bold text-blue-900">개인 차량 (자차)</h3>
                         </div>
-                        <form onsubmit="event.preventDefault(); submitEntry('trans-car', 'name-car');" class="flex gap-2 mb-4">
-                            <input type="text" id="name-car" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
-                            <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-800 transition-all">신청</button>
-                        </form>
+                        <div class="flex gap-2 mb-4">
+                            <input type="text" id="name-car" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button onclick="handleVote('trans-car', 'name-car')" class="bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-800 transition-all">신청</button>
+                        </div>
                         <div id="list-trans-car" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
                         <p id="count-trans-car" class="text-[10px] font-bold text-blue-700">신청: 0명</p>
                     </div>
                 </div>
-                
-                <div class="mt-6 text-[10px] text-stone-400 text-center italic">
-                    * 취소하시려면 이름을 클릭하세요. 카풀 가능 여부 확인에 큰 도움이 됩니다!
-                </div>
             </div>
         </section>
-
-        <!-- Final Destination Info -->
-        <section class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="bg-white p-4 rounded-2xl border border-stone-100 flex items-center gap-3 shadow-sm">
-                <div class="text-xl">🏠</div>
-                <div>
-                    <h3 class="font-bold text-stone-800 text-sm">집결 및 해산</h3>
-                    <p class="text-stone-500 text-[10px]">서울반석교회 주차장 (09:00 출발 / 16:00 도착)</p>
-                </div>
-            </div>
-            <div class="bg-white p-4 rounded-2xl border border-stone-100 flex items-center gap-3 shadow-sm">
-                <div class="text-xl">🅿️</div>
-                <div>
-                    <h3 class="font-bold text-stone-800 text-sm">주요 목적지 주차</h3>
-                    <p class="text-stone-500 text-[10px]">융건릉 공영 주차장 (무료)</p>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <footer class="bg-stone-900 text-stone-500 py-6 text-center">
+    <footer class="bg-stone-900 text-stone-500 py-6 text-center mt-12">
         <p class="text-white text-base mb-1 serif italic">"웃음소리에 귀 기울이는 하루"</p>
-        <p class="text-[8px] uppercase tracking-[0.2em] font-light">2026 Infant Division Teachers Retreat</p>
+        <p class="text-[8px] uppercase tracking-[0.2em]">2026 Infant Division Teachers Retreat</p>
     </footer>
 
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        // Firebase Configuration
+        // 설정 로드
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : '2026-teachers-picnic';
 
-        let currentUser = null;
+        let user = null;
 
-        // Auth initialization
-        async function initAuth() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Auth error:", error);
-            }
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) {
-                startListening();
-                document.getElementById('loader').style.display = 'none';
-            }
-        });
-
-        initAuth();
-
-        // Database logic
-        const collections = {
+        // 컬렉션 맵핑
+        const categoryMap = {
             'vote-1': 'lunch_votes_1',
             'vote-2': 'lunch_votes_2',
             'vote-3': 'lunch_votes_3',
@@ -358,96 +216,116 @@
             'trans-car': 'transport_car'
         };
 
-        function startListening() {
-            Object.keys(collections).forEach(key => {
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', collections[key]);
+        // 로딩 완료 처리
+        const hideLoader = () => {
+            const loader = document.getElementById('loader');
+            if (loader) loader.style.opacity = '0';
+            setTimeout(() => { if (loader) loader.style.display = 'none'; }, 500);
+        };
+
+        // 초기 인증 처리 (RULE 3)
+        const init = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth failed:", error);
+                // 에러 발생 시에도 최소한 화면은 보여주기 위해 로딩 해제
+                hideLoader();
+            }
+        };
+
+        // 인증 상태 변화 감지 및 리스너 시작
+        onAuthStateChanged(auth, (u) => {
+            user = u;
+            if (user) {
+                setupListeners();
+                hideLoader();
+            }
+        });
+
+        // 리스너 설정
+        function setupListeners() {
+            Object.keys(categoryMap).forEach(key => {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', categoryMap[key]);
                 onSnapshot(colRef, (snapshot) => {
                     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderList(key, data);
-                }, (error) => console.error(`Listener error for ${key}:`, error));
+                    updateUI(key, data);
+                }, (err) => console.error("Snapshot error:", err));
             });
         }
 
-        window.submitEntry = async (category, inputId) => {
-            if (!currentUser) return;
+        // 투표 및 신청 처리 (글로벌 노출)
+        window.handleVote = async (category, inputId) => {
+            if (!user) return;
             const input = document.getElementById(inputId);
             const name = input.value.trim();
             if (!name) return;
 
-            const docId = `${currentUser.uid}_${Date.now()}`;
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', collections[category], docId);
+            const docId = `${user.uid}_${Date.now()}`;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', categoryMap[category], docId);
             
             try {
                 await setDoc(docRef, {
-                    name: name,
-                    uid: currentUser.uid,
+                    name,
+                    uid: user.uid,
                     timestamp: Date.now()
                 });
                 input.value = "";
             } catch (e) {
-                console.error("Error adding document: ", e);
+                console.error("Save error:", e);
             }
         };
 
-        window.removeEntry = async (category, docId, ownerUid) => {
-            if (!currentUser || currentUser.uid !== ownerUid) {
-                // 본인 것만 삭제 가능하도록 하거나, 필요시 알림
-                return;
-            }
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', collections[category], docId);
+        // 삭제 처리
+        window.removeEntry = async (category, docId) => {
+            if (!user) return;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', categoryMap[category], docId);
             try {
                 await deleteDoc(docRef);
             } catch (e) {
-                console.error("Error removing document: ", e);
+                console.error("Delete error:", e);
             }
         };
 
-        function renderList(key, items) {
-            const listElement = document.getElementById(`list-${key}`);
-            if (!listElement) return;
+        // UI 업데이트
+        function updateUI(key, items) {
+            const list = document.getElementById(`list-${key}`);
+            if (!list) return;
 
-            listElement.innerHTML = '';
+            list.innerHTML = '';
             items.forEach(item => {
-                const tag = document.createElement("button");
+                const btn = document.createElement("button");
+                const isMine = item.uid === user?.uid;
                 
-                // Styling based on category
-                let baseStyle = "vote-list-item group flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-lg border font-bold shadow-sm cursor-pointer transition-all ";
-                if (key === 'trans-van') {
-                    baseStyle += "bg-emerald-100 text-emerald-800 border-emerald-200 hover:bg-red-50 hover:border-red-200";
-                } else if (key === 'trans-car') {
-                    baseStyle += "bg-blue-100 text-blue-800 border-blue-200 hover:bg-red-50 hover:border-red-200";
-                } else {
-                    baseStyle += "bg-white text-stone-700 border-stone-200 rounded-full hover:bg-red-50 hover:border-red-200";
+                let theme = "vote-list-item flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-lg border font-bold shadow-sm transition-all ";
+                if (key.includes('van')) theme += "bg-emerald-100 text-emerald-800 border-emerald-200";
+                else if (key.includes('car')) theme += "bg-blue-100 text-blue-800 border-blue-200";
+                else theme += "bg-white text-stone-700 border-stone-200 rounded-full";
+
+                if (isMine) theme += " ring-2 ring-stone-400 ring-offset-1";
+
+                btn.className = theme;
+                btn.innerHTML = `<span>${item.name}</span>${isMine ? '<span class="text-red-400 ml-1">✕</span>' : ''}`;
+                
+                if (isMine) {
+                    btn.onclick = () => removeEntry(key, item.id);
+                    btn.title = "클릭하여 삭제";
                 }
-
-                // 본인 항목인 경우 강조
-                if (item.uid === currentUser?.uid) {
-                    baseStyle += " ring-1 ring-offset-1 ring-stone-400";
-                }
-
-                tag.className = baseStyle;
-                tag.innerHTML = `
-                    <span>${item.name}</span>
-                    <span class="text-stone-400 group-hover:text-red-500 text-[8px] transition-colors">${item.uid === currentUser?.uid ? '✕' : ''}</span>
-                `;
-
-                if (item.uid === currentUser?.uid) {
-                    tag.title = "클릭하여 삭제";
-                    tag.onclick = () => removeEntry(key, item.id, item.uid);
-                } else {
-                    tag.title = "다른 선생님의 입력입니다.";
-                }
-
-                listElement.appendChild(tag);
+                list.appendChild(btn);
             });
 
-            // Update counts for transport
             if (key.startsWith('trans-')) {
-                const countEl = document.getElementById(`count-${key}`);
-                if (countEl) countEl.innerText = `신청: ${items.length}명`;
+                const count = document.getElementById(`count-${key}`);
+                if (count) count.innerText = `신청: ${items.length}명`;
             }
         }
-    </script>
 
+        // 실행
+        init();
+    </script>
 </body>
 </html>
