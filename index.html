@@ -30,7 +30,7 @@
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -44,8 +44,9 @@
 
     <!-- 로딩 화면 -->
     <div id="loader" class="loading-overlay">
-        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-700 mb-4"></div>
-        <p class="text-stone-600 font-medium">데이터를 불러오는 중입니다...</p>
+        <div id="loader-spinner" class="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-700 mb-4"></div>
+        <p id="loader-text" class="text-stone-600 font-medium">서버에 연결 중입니다...</p>
+        <button id="retry-btn" onclick="location.reload()" class="hidden mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm">다시 시도</button>
     </div>
 
     <!-- Hero Section -->
@@ -61,11 +62,11 @@
             
             <div class="flex flex-row justify-center items-center gap-3">
                 <div class="flex items-center gap-2 bg-white px-4 py-1.5 rounded-xl shadow-sm border border-stone-100">
-                    <span class="text-lg">🗓️</span>
+                    <span>🗓️</span>
                     <p class="font-bold text-stone-800 text-sm">5월 16일 (토)</p>
                 </div>
                 <div class="flex items-center gap-2 bg-white px-4 py-1.5 rounded-xl shadow-sm border border-stone-100">
-                    <span class="text-lg">📍</span>
+                    <span>📍</span>
                     <p class="font-bold text-stone-800 text-sm">화성 융건릉 & 보통리</p>
                 </div>
             </div>
@@ -77,7 +78,7 @@
         <section id="voting-section">
             <div class="text-center mb-6">
                 <h2 class="text-3xl font-bold text-stone-900 mb-1 tracking-tight">Lunch Voting</h2>
-                <p class="text-stone-500 text-sm mb-4">선생님들의 원픽 식당에 <strong>투표(이름 입력)</strong>해주세요!</p>
+                <p class="text-stone-500 text-sm mb-4">선생님들의 원픽 식당에 투표해 주세요!</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -198,16 +199,30 @@
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        // 설정 로드
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : '2026-teachers-picnic';
+        // 1. 초기 설정값 안전하게 로드
+        let firebaseConfig = {};
+        let appId = '2026-teachers-picnic';
+        
+        try {
+            if (typeof __firebase_config !== 'undefined') {
+                firebaseConfig = JSON.parse(__firebase_config);
+            }
+            if (typeof __app_id !== 'undefined') {
+                appId = __app_id;
+            }
+        } catch (e) {
+            console.error("Config load error:", e);
+        }
+
+        // Firebase 초기화 (설정이 있을 때만)
+        let auth, db;
+        if (firebaseConfig.apiKey) {
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        }
 
         let user = null;
-
-        // 컬렉션 맵핑
         const categoryMap = {
             'vote-1': 'lunch_votes_1',
             'vote-2': 'lunch_votes_2',
@@ -216,51 +231,75 @@
             'trans-car': 'transport_car'
         };
 
-        // 로딩 완료 처리
         const hideLoader = () => {
             const loader = document.getElementById('loader');
-            if (loader) loader.style.opacity = '0';
-            setTimeout(() => { if (loader) loader.style.display = 'none'; }, 500);
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            }
         };
 
-        // 초기 인증 처리 (RULE 3)
+        const showErrorMessage = (msg) => {
+            document.getElementById('loader-spinner').classList.add('hidden');
+            const txt = document.getElementById('loader-text');
+            txt.innerText = msg;
+            txt.classList.add('text-red-500');
+            document.getElementById('retry-btn').classList.remove('hidden');
+        };
+
+        // 초기화 함수
         const init = async () => {
+            if (!auth || !db) {
+                showErrorMessage("서버 설정 정보가 없습니다.");
+                return;
+            }
+
             try {
+                // RULE 3 준수
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
+                    // 익명 로그인 시도
                     await signInAnonymously(auth);
                 }
             } catch (error) {
-                console.error("Auth failed:", error);
-                // 에러 발생 시에도 최소한 화면은 보여주기 위해 로딩 해제
-                hideLoader();
+                console.error("Auth error:", error);
+                // 인증 실패 시에도 일단 화면은 열어줌 (읽기 전용 상태가 될 수 있음)
+                hideLoader(); 
             }
         };
 
-        // 인증 상태 변화 감지 및 리스너 시작
-        onAuthStateChanged(auth, (u) => {
-            user = u;
-            if (user) {
-                setupListeners();
-                hideLoader();
-            }
-        });
+        // 인증 상태 모니터링
+        if (auth) {
+            onAuthStateChanged(auth, (u) => {
+                user = u;
+                if (user) {
+                    setupListeners();
+                    hideLoader();
+                }
+            });
+        }
 
-        // 리스너 설정
         function setupListeners() {
+            if (!db) return;
             Object.keys(categoryMap).forEach(key => {
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', categoryMap[key]);
                 onSnapshot(colRef, (snapshot) => {
                     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     updateUI(key, data);
-                }, (err) => console.error("Snapshot error:", err));
+                }, (err) => {
+                    console.error("Snapshot error:", err);
+                    // 권한 에러 등이 나도 화면은 볼 수 있게 처리
+                    hideLoader();
+                });
             });
         }
 
-        // 투표 및 신청 처리 (글로벌 노출)
         window.handleVote = async (category, inputId) => {
-            if (!user) return;
+            if (!user || !db) {
+                alert("서버 연결이 필요합니다.");
+                return;
+            }
             const input = document.getElementById(inputId);
             const name = input.value.trim();
             if (!name) return;
@@ -277,12 +316,12 @@
                 input.value = "";
             } catch (e) {
                 console.error("Save error:", e);
+                alert("저장에 실패했습니다. (권한 문제일 수 있습니다)");
             }
         };
 
-        // 삭제 처리
         window.removeEntry = async (category, docId) => {
-            if (!user) return;
+            if (!user || !db) return;
             const docRef = doc(db, 'artifacts', appId, 'public', 'data', categoryMap[category], docId);
             try {
                 await deleteDoc(docRef);
@@ -291,7 +330,6 @@
             }
         };
 
-        // UI 업데이트
         function updateUI(key, items) {
             const list = document.getElementById(`list-${key}`);
             if (!list) return;
@@ -313,7 +351,6 @@
                 
                 if (isMine) {
                     btn.onclick = () => removeEntry(key, item.id);
-                    btn.title = "클릭하여 삭제";
                 }
                 list.appendChild(btn);
             });
@@ -324,8 +361,18 @@
             }
         }
 
-        // 실행
+        // 3. 실행 및 타임아웃 방지
         init();
+        
+        // 5초 이상 로딩되면 강제로 해제하거나 에러 메시지 표시
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            if (loader && loader.style.display !== 'none' && !document.getElementById('retry-btn').classList.contains('hidden') === false) {
+                console.warn("Loading timeout - check Firebase connection");
+                hideLoader(); 
+            }
+        }, 8000);
+
     </script>
 </body>
 </html>
