@@ -226,34 +226,49 @@
             </div>
         </section>
 
-        <!-- New: Church Van Request Section -->
+        <!-- Transport Request Section -->
         <section id="transport-section" class="max-w-4xl mx-auto pt-8">
             <div class="bg-white rounded-[2.5rem] p-8 border border-stone-200 shadow-md">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl">🚐</div>
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl">🚗</div>
                     <div>
-                        <h2 class="text-2xl font-bold text-stone-900 serif">교회 차량 신청</h2>
-                        <p class="text-stone-500 text-sm">교회 스타리아를 이용하실 분은 이름을 적어주세요.</p>
+                        <h2 class="text-2xl font-bold text-stone-900 serif">이동 수단 신청</h2>
+                        <p class="text-stone-500 text-sm">카풀 및 차량 배차를 위해 이동 방법을 선택해 주세요.</p>
                     </div>
                 </div>
 
-                <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100">
-                    <form onsubmit="event.preventDefault(); addVote('list-van', 'name-van');" class="flex gap-2 mb-6 max-w-md mx-auto">
-                        <input type="text" id="name-van" placeholder="이름 입력" class="flex-grow text-sm px-4 py-3 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
-                        <button type="submit" class="bg-stone-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-stone-800 transition-all shadow-md">신청하기</button>
-                    </form>
-                    
-                    <div class="text-center">
-                        <p class="text-[10px] text-stone-400 mb-4 uppercase tracking-widest font-bold">신청 명단</p>
-                        <div id="list-van" class="flex flex-wrap justify-center gap-2 min-h-[40px]">
-                            <!-- Van request names go here -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Church Van -->
+                    <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-lg">🚐</span>
+                            <h3 class="font-bold text-emerald-900">교회 차량 (스타리아)</h3>
                         </div>
-                        <div id="van-count" class="mt-4 text-xs font-bold text-emerald-700">현재 신청: 0명</div>
+                        <form onsubmit="event.preventDefault(); addVote('list-van', 'name-van');" class="flex gap-2 mb-4">
+                            <input type="text" id="name-van" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
+                            <button type="submit" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-800 transition-all">신청</button>
+                        </form>
+                        <div id="list-van" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
+                        <p id="count-van" class="text-[10px] font-bold text-emerald-700">신청: 0명</p>
+                    </div>
+
+                    <!-- Personal Car -->
+                    <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-lg">🚘</span>
+                            <h3 class="font-bold text-blue-900">개인 차량 (자차)</h3>
+                        </div>
+                        <form onsubmit="event.preventDefault(); addVote('list-car', 'name-car');" class="flex gap-2 mb-4">
+                            <input type="text" id="name-car" placeholder="이름 입력" class="flex-grow text-sm px-3 py-2 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                            <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-800 transition-all">신청</button>
+                        </form>
+                        <div id="list-car" class="flex flex-wrap gap-1.5 min-h-[40px] mb-2"></div>
+                        <p id="count-car" class="text-[10px] font-bold text-blue-700">신청: 0명</p>
                     </div>
                 </div>
                 
-                <div class="mt-4 text-[10px] text-stone-400 text-center">
-                    * 인원 파악 후 차량 배차 및 카풀 계획에 참고하겠습니다. (취소는 이름을 클릭하세요)
+                <div class="mt-6 text-[10px] text-stone-400 text-center italic">
+                    * 취소하시려면 이름을 클릭하세요. 카풀 가능 여부 확인에 큰 도움이 됩니다!
                 </div>
             </div>
         </section>
@@ -292,12 +307,16 @@
             if (name === "") return;
 
             const tag = document.createElement("button");
-            // Check if it's for the van list to give different styling
-            const isVan = listId === 'list-van';
+            const isTransport = listId.startsWith('list-');
             
-            tag.className = isVan 
-                ? "vote-list-item group flex items-center gap-2 bg-white text-stone-800 text-xs px-4 py-2 rounded-xl border border-stone-200 font-semibold shadow-sm cursor-pointer hover:border-red-200 transition-all"
-                : "vote-list-item group flex items-center gap-1.5 bg-white text-stone-700 text-[10px] px-2.5 py-1 rounded-full border border-stone-200 font-medium shadow-sm cursor-pointer";
+            // Style based on list type
+            if (listId === 'list-van') {
+                tag.className = "vote-list-item group flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded-lg border border-emerald-200 font-bold shadow-sm cursor-pointer hover:bg-red-50";
+            } else if (listId === 'list-car') {
+                tag.className = "vote-list-item group flex items-center gap-1.5 bg-blue-100 text-blue-800 text-[10px] px-2.5 py-1 rounded-lg border border-blue-200 font-bold shadow-sm cursor-pointer hover:bg-red-50";
+            } else {
+                tag.className = "vote-list-item group flex items-center gap-1.5 bg-white text-stone-700 text-[10px] px-2.5 py-1 rounded-full border border-stone-200 font-medium shadow-sm cursor-pointer hover:bg-red-50";
+            }
             
             tag.title = "클릭하여 삭제";
             
@@ -306,24 +325,26 @@
                 this.style.transform = 'scale(0.8)';
                 setTimeout(() => { 
                     this.remove(); 
-                    if (isVan) updateVanCount();
+                    if (listId === 'list-van') updateCount('list-van', 'count-van');
+                    if (listId === 'list-car') updateCount('list-car', 'count-car');
                 }, 200);
             };
 
             tag.innerHTML = `
                 <span>${name}</span>
-                <span class="${isVan ? 'text-stone-300 group-hover:text-red-500 text-xs' : 'text-stone-300 group-hover:text-red-500 text-[8px]'} transition-colors">✕</span>
+                <span class="text-stone-400 group-hover:text-red-500 text-[8px] transition-colors">✕</span>
             `;
 
             list.appendChild(tag);
             input.value = "";
             
-            if (isVan) updateVanCount();
+            if (listId === 'list-van') updateCount('list-van', 'count-van');
+            if (listId === 'list-car') updateCount('list-car', 'count-car');
         }
 
-        function updateVanCount() {
-            const count = document.getElementById('list-van').children.length;
-            document.getElementById('van-count').innerText = `현재 신청: ${count}명`;
+        function updateCount(listId, countId) {
+            const count = document.getElementById(listId).children.length;
+            document.getElementById(countId).innerText = `신청: ${count}명`;
         }
     </script>
 
