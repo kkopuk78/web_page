@@ -23,6 +23,19 @@
             .no-print { display: none; }
             body { background-color: white; }
         }
+        .vote-list-item {
+            animation: fadeIn 0.3s ease-out;
+            transition: all 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .vote-list-item:hover {
+            background-color: #fee2e2;
+            border-color: #fca5a5;
+            color: #b91c1c;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -71,7 +84,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Step 1 -->
                 <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
                     <div class="flex items-center gap-3 mb-3">
                         <span class="text-3xl">🚗</span>
@@ -81,13 +93,8 @@
                         </div>
                     </div>
                     <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">서울반석교회 주차장에서 모입니다. 지각 금지! 차 안에서는 우리 얘기만 하기.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                        <p class="text-[10px] font-bold text-emerald-700 uppercase mb-1">Check point</p>
-                        <p class="text-emerald-800 text-xs font-medium">카풀 조 편성 확인</p>
-                    </div>
                 </div>
 
-                <!-- Step 2 -->
                 <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
                     <div class="flex items-center gap-3 mb-3">
                         <span class="text-3xl">🌲</span>
@@ -97,13 +104,8 @@
                         </div>
                     </div>
                     <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">소나무 길을 걷습니다. 피톤치드로 마음의 때를 씻어내세요.</p>
-                    <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                        <p class="text-[10px] font-bold text-emerald-700 uppercase mb-1">Mission</p>
-                        <p class="text-emerald-800 text-xs font-medium">우리 반 아이 닮은 돌 찾기</p>
-                    </div>
                 </div>
 
-                <!-- Step 3 -->
                 <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
                     <div class="flex items-center gap-3 mb-3">
                         <span class="text-3xl">🍱</span>
@@ -113,13 +115,8 @@
                         </div>
                     </div>
                     <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">아래 후보 중 하나를 골라 즐거운 식사. 영혼을 충전하는 시간!</p>
-                    <div class="bg-orange-50 p-3 rounded-xl border border-orange-100">
-                        <p class="text-[10px] font-bold text-orange-700 uppercase mb-1">Mission</p>
-                        <p class="text-orange-800 text-xs font-medium">옆 선생님께 덕담 건네기</p>
-                    </div>
                 </div>
 
-                <!-- Step 4 -->
                 <div class="bg-white p-5 rounded-[1.5rem] border border-stone-100 shadow-sm flex flex-col h-full">
                     <div class="flex items-center gap-3 mb-3">
                         <span class="text-3xl">🥐</span>
@@ -129,97 +126,120 @@
                         </div>
                     </div>
                     <p class="text-stone-600 text-sm leading-relaxed mb-4 flex-grow">한옥 베이커리에서 디저트 타임. 못다 한 수다를 완성합니다.</p>
-                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-100">
-                        <p class="text-[10px] font-bold text-amber-700 uppercase mb-1">Bonus</p>
-                        <p class="text-amber-800 text-xs font-medium">단체 기념 사진 촬영</p>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Hotspots Section -->
-        <section>
+        <!-- Hotspots & Voting Section -->
+        <section id="voting-section">
             <div class="text-center mb-6">
-                <h2 class="text-3xl font-bold text-stone-900 mb-1 tracking-tight">Lunch Selections</h2>
-                <p class="text-stone-500 text-sm mb-4 text-center">선생님들의 원픽은 어디인가요? <strong>3곳 중 하나를 선택해 예약</strong>할 예정입니다.</p>
+                <h2 class="text-3xl font-bold text-stone-900 mb-1 tracking-tight">Lunch Voting</h2>
+                <p class="text-stone-500 text-sm mb-4 text-center">선생님들의 원픽 식당에 <strong>투표(이름 입력)</strong>해주세요!</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Option 1 -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100 flex flex-col group">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col">
                     <div class="relative h-[180px] bg-stone-200">
-                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20260223_28%2F1771808133987eeNEl_JPEG%2F%25B0%25A9%25BF%25C0%25C2%25A1%25BE%25EE_%25BA%25D2%25B0%25ED%25B1%25E2.JPG" alt="조가네갑오징어" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20260223_28%2F1771808133987eeNEl_JPEG%2F%25B0%25A9%25BF%25C0%25C2%25A1%25BE%25EE_%25BA%25D2%25B0%25ED%25B1%25E2.JPG" alt="조가네갑오징어" class="w-full h-full object-cover">
                         <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
-                            <h3 class="text-base font-bold text-white">조가네 갑오징어 융건릉점</h3>
+                            <h3 class="text-base font-bold text-white">조가네 갑오징어</h3>
                         </div>
                     </div>
-                    <div class="p-4 flex-grow">
-                        <div class="mb-3">
-                            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full uppercase">Signature</span>
-                            <p class="text-sm font-bold text-stone-800 mt-1">갑오징어 불고기 (1인 1.6만)</p>
+                    <div class="p-5 flex-grow space-y-4">
+                        <div>
+                            <p class="text-sm font-bold text-stone-800">갑오징어 불고기 (1.6만)</p>
+                            <a href="https://m.blog.naver.com/arodea/223494619478" target="_blank" class="text-[10px] text-emerald-600 hover:underline font-medium">리뷰 확인 ↗</a>
                         </div>
-                        <p class="text-xs text-stone-500 leading-relaxed mb-4">쫄깃한 갑오징어와 매콤한 양념. 마지막 치즈 볶음밥은 필수!</p>
-                        <a href="https://m.blog.naver.com/arodea/223494619478" target="_blank" class="block text-center text-[10px] font-bold text-emerald-600 border border-emerald-100 py-2 rounded-xl hover:bg-emerald-50 transition-colors">블로그 리뷰 보기</a>
+                        
+                        <!-- Voting UI -->
+                        <div class="pt-4 border-t border-stone-50">
+                            <form onsubmit="event.preventDefault(); addVote(1);" class="flex gap-2 mb-3">
+                                <input type="text" id="name-1" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                                <button type="submit" class="bg-emerald-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-emerald-700 transition-colors">투표</button>
+                            </form>
+                            <div id="list-1" class="flex flex-wrap gap-1.5 min-h-[30px]">
+                                <!-- Names go here -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Option 2 -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100 flex flex-col group">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col">
                     <div class="relative h-[180px] bg-stone-200">
-                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221222_274%2F1671681786616BIlB4_JPEG%2F20%25B3%25E2%25B5%25B5_%25C7%25D1%25BB%25F3%25C2%25F7%25B8%25B2_2.jpg" alt="미꼬담" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221222_274%2F1671681786616BIlB4_JPEG%2F20%25B3%25E2%25B5%25B5_%25C7%25D1%25BB%25F3%25C2%25F7%25B8%25B2_2.jpg" alt="미꼬담" class="w-full h-full object-cover">
                         <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
-                            <h3 class="text-base font-bold text-white">미꼬담 화성융건릉점</h3>
+                            <h3 class="text-base font-bold text-white">미꼬담</h3>
                         </div>
                     </div>
-                    <div class="p-4 flex-grow">
-                        <div class="mb-3">
-                            <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full uppercase">Clean & Healthy</span>
-                            <p class="text-sm font-bold text-stone-800 mt-1">미역국/꼬막 정찬 (1.5~2.0만)</p>
+                    <div class="p-5 flex-grow space-y-4">
+                        <div>
+                            <p class="text-sm font-bold text-stone-800">미역국/꼬막 정찬 (1.5~2.0만)</p>
+                            <a href="https://m.blog.naver.com/soominwish/223048882049" target="_blank" class="text-[10px] text-blue-600 hover:underline font-medium">리뷰 확인 ↗</a>
                         </div>
-                        <p class="text-xs text-stone-500 leading-relaxed mb-4">정갈한 한상 차림으로 대접받는 느낌. 속 편한 보양식으로 제격입니다.</p>
-                        <a href="https://m.blog.naver.com/soominwish/223048882049" target="_blank" class="block text-center text-[10px] font-bold text-blue-600 border border-blue-100 py-2 rounded-xl hover:bg-blue-50 transition-colors">블로그 리뷰 보기</a>
+
+                        <!-- Voting UI -->
+                        <div class="pt-4 border-t border-stone-50">
+                            <form onsubmit="event.preventDefault(); addVote(2);" class="flex gap-2 mb-3">
+                                <input type="text" id="name-2" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                <button type="submit" class="bg-blue-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-blue-700 transition-colors">투표</button>
+                            </form>
+                            <div id="list-2" class="flex flex-wrap gap-1.5 min-h-[30px]">
+                                <!-- Names go here -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Option 3 -->
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100 flex flex-col group">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col">
                     <div class="relative h-[180px] bg-stone-200">
-                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190307_92%2F1551931299858zrGHB_JPEG%2FSAM_2843.JPG" alt="황도면옥" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190307_92%2F1551931299858zrGHB_JPEG%2FSAM_2843.JPG" alt="황도면옥" class="w-full h-full object-cover">
                         <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
                             <h3 class="text-base font-bold text-white">황도면옥</h3>
                         </div>
                     </div>
-                    <div class="p-4 flex-grow">
-                        <div class="mb-3">
-                            <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full uppercase">Light & Cool</span>
-                            <p class="text-sm font-bold text-stone-800 mt-1">칼국수/막국수 (1.0~1.3만)</p>
+                    <div class="p-5 flex-grow space-y-4">
+                        <div>
+                            <p class="text-sm font-bold text-stone-800">칼국수/막국수 (1.0~1.3만)</p>
+                            <a href="https://blog.naver.com/yucalip12/223715148846" target="_blank" class="text-[10px] text-amber-600 hover:underline font-medium">리뷰 확인 ↗</a>
                         </div>
-                        <p class="text-xs text-stone-500 leading-relaxed mb-4">시원한 국물과 왕만두의 조화. 보리밥과 막걸리 무제한 제공!</p>
-                        <a href="https://blog.naver.com/yucalip12/223715148846" target="_blank" class="block text-center text-[10px] font-bold text-amber-600 border border-amber-100 py-2 rounded-xl hover:bg-amber-50 transition-colors">블로그 리뷰 보기</a>
+
+                        <!-- Voting UI -->
+                        <div class="pt-4 border-t border-stone-50">
+                            <form onsubmit="event.preventDefault(); addVote(3);" class="flex gap-2 mb-3">
+                                <input type="text" id="name-3" placeholder="이름 입력" class="flex-grow text-xs px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500">
+                                <button type="submit" class="bg-amber-600 text-white text-xs px-3 py-2 rounded-lg font-bold shrink-0 hover:bg-amber-700 transition-colors">투표</button>
+                            </form>
+                            <div id="list-3" class="flex flex-wrap gap-1.5 min-h-[30px]">
+                                <!-- Names go here -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="mt-8 p-6 bg-stone-100 rounded-2xl text-center border-dashed border-2 border-stone-300">
-                <p class="text-stone-700 font-bold mb-2">📢 다수결로 한 곳을 확정합니다!</p>
-                <p class="text-xs text-stone-500">단체 좌석 확보를 위해 이번 주까지 단톡방 투표를 완료해주세요.</p>
+                <p class="text-stone-700 font-bold mb-2 text-sm md:text-base italic">📢 다수결로 한 곳을 확정합니다!</p>
+                <p class="text-[10px] md:text-xs text-stone-500">이름을 입력하면 투표가 완료됩니다. <span class="text-red-500">삭제를 원하시면 투표된 이름을 클릭하세요.</span></p>
             </div>
         </section>
 
         <!-- Parking Info -->
         <section class="max-w-4xl mx-auto grid grid-cols-2 gap-3">
-            <div class="bg-white p-4 rounded-2xl border border-stone-100 flex items-center gap-3">
+            <div class="bg-white p-4 rounded-2xl border border-stone-100 flex items-center gap-3 shadow-sm">
                 <div class="text-xl">⛪</div>
                 <div>
-                    <h3 class="font-bold text-stone-800 text-sm">집결: 서울반석교회 주차장</h3>
-                    <p class="text-stone-500 text-[10px]">당일 09:00 정시 출발</p>
+                    <h3 class="font-bold text-stone-800 text-xs md:text-sm">집결: 서울반석교회 주차장</h3>
+                    <p class="text-stone-500 text-[9px] md:text-[10px]">당일 09:00 정시 출발</p>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-stone-100 flex items-center gap-3">
+            <div class="bg-white p-4 rounded-2xl border border-stone-100 flex items-center gap-3 shadow-sm">
                 <div class="text-xl">🅿️</div>
                 <div>
-                    <h3 class="font-bold text-stone-800 text-sm">도착: 융건릉 주차장</h3>
-                    <p class="text-stone-500 text-[10px]">입구 앞 무료 주차</p>
+                    <h3 class="font-bold text-stone-800 text-xs md:text-sm">도착: 융건릉 주차장</h3>
+                    <p class="text-stone-500 text-[9px] md:text-[10px]">입구 앞 무료 주차</p>
                 </div>
             </div>
         </section>
@@ -230,6 +250,41 @@
         <p class="text-white text-base mb-1 serif italic">"웃음소리에 귀 기울이는 하루"</p>
         <p class="text-[8px] uppercase tracking-[0.2em] font-light">2026 Infant Division Teachers Retreat</p>
     </footer>
+
+    <script>
+        function addVote(id) {
+            const input = document.getElementById(`name-${id}`);
+            const list = document.getElementById(`list-${id}`);
+            const name = input.value.trim();
+
+            if (name === "") {
+                return;
+            }
+
+            // Create tag wrapper
+            const tag = document.createElement("button");
+            tag.className = "vote-list-item group flex items-center gap-1.5 bg-white text-stone-700 text-[10px] px-2.5 py-1 rounded-full border border-stone-200 font-medium shadow-sm cursor-pointer";
+            tag.title = "클릭하여 투표 삭제";
+            
+            // On click remove tag
+            tag.onclick = function() {
+                this.style.opacity = '0';
+                this.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    this.remove();
+                }, 200);
+            };
+
+            // Content
+            tag.innerHTML = `
+                <span>${name}</span>
+                <span class="text-stone-300 group-hover:text-red-500 text-[8px] transition-colors">✕</span>
+            `;
+
+            list.appendChild(tag);
+            input.value = ""; // Reset input
+        }
+    </script>
 
 </body>
 </html>
